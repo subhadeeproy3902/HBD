@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Microsoft Aurora</title>
+        <link rel="icon" href="./css/ico/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" sizes="180x180" href="./css/ico/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="./css/ico/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="./css/ico/favicon-16x16.png" />
+        <link rel="manifest" href="./css/ico/site.webmanifest" />
+        <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+        <link rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap">
+</head>
+
+<body>
+        <style>
+                * {
+                        padding: 0;
+                        margin: 0;
+                        box-sizing: border-box;
+                        list-style: none;
+                        scroll-behavior: smooth;
+                        text-decoration: none;
+                }
+
+                body {
+                        background-color: #122233;
+                        color: #edf8ff;
+                        overflow-x: hidden;
+                }
+
+                .welcome {
+                        display: flex;
+                        text-align: center;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        width: 100%;
+                        height: 100%;
+                        position: fixed;
+                        background-size: 100% 100%;
+                        background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+                        background-image: repeating-linear-gradient(315deg,
+                                        #00ffff2e 92%,
+                                        #073aff00 100%),
+                                repeating-radial-gradient(75% 75% at 238% 218%,
+                                        #00ffff12 30%,
+                                        #073aff14 39%),
+                                radial-gradient(99% 99% at 109% 2%, #23c9ffff 5%, #073aff00 100%),
+                                radial-gradient(99% 99% at 21% 78%, #7b00ffff 0%, #073aff00 100%),
+                                radial-gradient(160% 154% at 711px -303px, #1b64e5ff 0%, #073affff 100%);
+                        z-index: 9999;
+                }
+
+                .p1 {
+                        font-size: clamp(3.5rem, 5.7vw, 7rem);
+                        font-family: "Montserrat";
+                        font-weight: 600;
+                        letter-spacing: 1.5px;
+                        line-height: 1.7;
+                }
+
+                .p2 {
+                        font-size: clamp(1.3rem, 3.5vw, 4.5rem);
+                        font-family: "Montserrat";
+                        font-weight: 600;
+                        letter-spacing: 1.5px;
+                        padding: 1rem;
+                }
+
+                .p3 {
+                        font-size: clamp(1rem, 2.5vw, 3.5rem);
+                        font-family: "Montserrat";
+                        font-weight: 600;
+                        letter-spacing: 1.5px;
+                        line-height: 2.5;
+                }
+
+                .welcome-X {
+                        text-decoration: none;
+                        float: right;
+                        font-size: 35px;
+                        font-weight: bold;
+                        color: #defaff;
+                        position: absolute;
+                        top: 0;
+                        right: 10px;
+                        z-index: 9;
+                }
+
+                /*Fireworks---------------------------------------------------------------*/
+                #welcome-wrapper {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        overflow: hidden;
+                }
+
+                .circle-wrapper {
+                        position: relative;
+                        width: 150px;
+                        height: 150px;
+                        float: left;
+                        margin: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                }
+
+                .icon {
+                        position: absolute;
+                        color: #fff;
+                        font-size: 110px;
+                        bottom: 0.5px;
+                }
+
+                .circle {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        padding: 2.5px;
+                        background-clip: content-box;
+                        animation: spin 10s linear infinite;
+                }
+
+                .circle-wrapper:active .circle {
+                        animation: spin 2s linear infinite;
+                }
+
+                .success {
+                        background-color: transparent;
+                        border: 4px dashed #06007b;
+                }
+
+                @keyframes spin {
+                        100% {
+                                transform: rotateZ(360deg);
+                        }
+                }
+
+                .btn {
+                        margin-top: 1.5rem;
+                        padding: 0.8rem 2.3rem;
+                        backdrop-filter: blur(20px);
+                        border-radius: 0 1.5rem 0 1.5rem;
+                        font-family: "Open Sans", sans-serif;
+                        font-weight: 600;
+                        font-size: 1.1rem;
+                        border: 2.2px solid #000f9b;
+                        color: #e4e4e4;
+                        transition: all 0.3s ease-in-out;
+                        background: rgba(0, 15, 155, 0.25);
+                }
+
+                .btn:hover {
+                        background-color: #000f9b;
+                        backdrop-filter: none;
+                }
+        </style>
+
+
+        <div class="welcome" id="welcome">
+                <p class="p1">Happy Birthday !!</p>
+                <p class="p2">Snikdhendu</p>
+                <p class="p3">See you tomorrow GdNi8 :&#41;</p>
+                <div id="welcome-wrapper">
+                        <canvas id="confetti"></canvas>
+                </div>
+        </div>
+
+
+        <script>
+                (function () {
+                        var COLORS,
+                                Confetti,
+                                NUM_CONFETTI,
+                                PI_2,
+                                canvas,
+                                confetti,
+                                context,
+                                drawRectangle,
+                                i,
+                                range,
+                                resizeWindow,
+                                xpos;
+
+                        NUM_CONFETTI = 200;
+
+                        COLORS = [
+                                [255, 0, 0],
+                                [255, 192, 203],
+                                [255, 255, 0],
+                                [0, 255, 0],
+                                [255, 165, 0],
+                        ];
+
+                        PI_2 = 2 * Math.PI;
+
+                        canvas = document.getElementById("confetti");
+
+                        context = canvas.getContext("2d");
+
+                        window.w = 0;
+
+                        window.h = 0;
+
+                        resizeWindow = function () {
+                                window.w = canvas.width = window.innerWidth;
+                                return (window.h = canvas.height = window.innerHeight);
+                        };
+
+                        window.addEventListener("resize", resizeWindow, false);
+
+                        window.onload = function () {
+                                return setTimeout(resizeWindow, 0);
+                        };
+
+                        range = function (a, b) {
+                                return (b - a) * Math.random() + a;
+                        };
+
+                        drawRectangle = function (x, y, width, height, style) {
+                                context.fillStyle = style;
+                                return context.fillRect(x, y, width, height);
+                        };
+
+                        xpos = 0.5;
+
+                        document.onmousemove = function (e) {
+                                return (xpos = e.pageX / w);
+                        };
+
+                        window.requestAnimationFrame = (function () {
+                                return (
+                                        window.requestAnimationFrame ||
+                                        window.webkitRequestAnimationFrame ||
+                                        window.mozRequestAnimationFrame ||
+                                        window.oRequestAnimationFrame ||
+                                        window.msRequestAnimationFrame ||
+                                        function (callback) {
+                                                return window.setTimeout(callback, 1000 / 60);
+                                        }
+                                );
+                        })();
+
+                        Confetti = (function () {
+                                function Confetti() {
+                                        this.style = COLORS[~~range(0, COLORS.length)];
+                                        this.rgb =
+                                                "rgba(" + this.style[0] + "," + this.style[1] + "," + this.style[2];
+                                        this.width = ~~range(8, 8);
+                                        this.height = this.width * .8;
+                                        this.replace();
+                                }
+
+                                Confetti.prototype.replace = function () {
+                                        this.opacity = 0;
+                                        this.dop = 0.03 * range(1, 4);
+                                        this.x = range(-this.width, w - this.width);
+                                        this.y = range(-20, h - this.height);
+                                        this.xmax = w - this.width;
+                                        this.ymax = h - this.height;
+                                        this.vx = range(0, 2) + 8 * xpos - 5;
+                                        return (this.vy = 0.7 * this.width + range(-1, 1));
+                                };
+
+                                Confetti.prototype.draw = function () {
+                                        var ref;
+                                        this.x += this.vx;
+                                        this.y += this.vy;
+                                        this.opacity += this.dop;
+                                        if (this.opacity > 1) {
+                                                this.opacity = 1;
+                                                this.dop *= -1;
+                                        }
+                                        if (this.opacity < 0 || this.y > this.ymax) {
+                                                this.replace();
+                                        }
+                                        if (!(0 < (ref = this.x) && ref < this.xmax)) {
+                                                this.x = (this.x + this.xmax) % this.xmax;
+                                        }
+                                        return drawRectangle(
+                                                ~~this.x,
+                                                ~~this.y,
+                                                this.width,
+                                                this.height,
+                                                this.rgb + "," + this.opacity + ")"
+                                        );
+                                };
+
+                                return Confetti;
+                        })();
+
+                        confetti = (function () {
+                                var j, ref, results;
+                                results = [];
+                                for (
+                                        i = j = 1, ref = NUM_CONFETTI;
+                                        1 <= ref ? j <= ref : j >= ref;
+                                        i = 1 <= ref ? ++j : --j
+                                ) {
+                                        results.push(new Confetti());
+                                }
+                                return results;
+                        })();
+
+                        window.step = function () {
+                                var c, j, len, results;
+                                requestAnimationFrame(step);
+                                context.clearRect(0, 0, w, h);
+                                results = [];
+                                for (j = 0, len = confetti.length; j < len; j++) {
+                                        c = confetti[j];
+                                        results.push(c.draw());
+                                }
+                                return results;
+                        };
+
+                        step();
+                })();
+        </script>
+</body>
+
+</html>
